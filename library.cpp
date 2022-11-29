@@ -1,15 +1,3 @@
-/*
-
-This code is not complete yet
-It is intended to perform library functions and store information in a file once user exits library
-
-I still have to remove the constructor and change some functions
-Modify the functions and optimize as you please
-
-I will complete the code and upload it soon
-
-*/
-
 #include <iostream>
 #include <map>
 #include <vector>
@@ -83,9 +71,10 @@ public:
 
 class Library
 {
-    map<int, int> index_numbers;
+    map<int, int> id_numbers;
     vector<string> booknames;
     vector<int> count;
+    vector<int> isbn_numbers;
     vector<int> reserved;
     int money;
     vector<Member> members;
@@ -93,14 +82,14 @@ class Library
     string commands[4];
     void addBook(string bookname, int no_of_copies, int id_number) // add book to library
     {
-        if (index_numbers[id_number] != 1)
+        if (id_numbers[id_number] != 1)
         {
             cout << "You are not a manager and thus have no authority to add a book here" << endl;
             return;
         }
+        int ISBN_number;
         if (no_of_copies > 0)
         {
-            int ISBN_number;
             while (true)
             {
                 cout << "Enter ISBN number: ";
@@ -127,13 +116,18 @@ class Library
             booknames.insert(booknames.end(), bookname);
             count.insert(count.end(), no_of_copies);
             reserved.insert(reserved.end(), 0);
+            isbn_numbers.insert(isbn_numbers.end(), ISBN_number);
             cout << "Book added to library successfully\n";
         }
         else
             cout << "KINDLY ENTER VALID NUMBER OF BOOKS!!!\nIT SHOULD BE WHOLE NUMBER!\n\n";
         cout << "This terminal will be erased shortly\n";
         sleep(7);
-        system("cls");
+        int system_return_val = system("cls");
+        if (system_return_val != 0)
+        {
+            system("clear");
+        }
         return;
     }
     void showInventory()
@@ -152,80 +146,86 @@ class Library
     }
     void addMember(int manager_id_number, string name) // add member to library
     {
-        if (index_numbers[manager_id_number] != 1)
+        if (id_numbers[manager_id_number] != 1)
         {
             cout << "You are not the manager and thus cannot add a member to the library\n";
             return;
         }
-        int id_number; // generate random here
+        int id_number = (id_numbers.size() * 100 + id_numbers.size() + 3) * 19; // A random way of generating id solely depending on number of users
+
         cout << "Here is the id number for " << name << ": " << id_number << endl;
         Member *member = new Member(name, id_number);
         members.insert(members.end(), *member);
         delete (member);
         mem++;
-        index_numbers[id_number] = mem;
+        id_numbers[id_number] = mem;
         cout << "Kindly ask member to not forget their id number" << endl;
         cout << "Member added successfully\n";
         while (true)
         {
             cout << "Have you told the member their id number? (Y/n) ";
-            char c;
+            string c;
             cin >> c;
-            if (c == 'y' || c == 'Y')
+            if (c[0] == 'y' || c[0] == 'Y')
             {
                 cout << "Good\n";
                 cout << "The terminal will be cleared shortly";
                 sleep(5);
-                system("cls");
+                int system_return_val = system("cls");
+                if (system_return_val != 0)
+                {
+                    system("clear");
+                }
                 break;
             }
             cout << "Please inform the member\n";
             sleep(3);
         }
     }
-    void issueBook(string bookname, int member_number, int date) // member_number of members vector ie 4 refers to 5th member of library
+    void issueBook(string bookname, int member_id_number, int date)
     {
-        if (index_numbers[member_number] == 0)
+        if (id_numbers[member_id_number] == 0)
         {
-            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n" << members.size() << endl
+            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n"
+                 << members.size() << endl
                  << endl;
             return;
         }
-        member_number = index_numbers[member_number] - 1;
-        if (members[member_number].amount_owed != 0)
+        member_id_number = id_numbers[member_id_number] - 1;
+        if (members[member_id_number].amount_owed != 0)
         {
-            cout << "You (" << members[member_number].name << ") owe the library Rs" << members[member_number].amount_owed << endl
-                 << "No book is issued yet to you " << members[member_number].name << "\nKINDLY PAY Rs" << members[member_number].amount_owed << " FIRST\n\n";
+            cout << "You (" << members[member_id_number].name << ") owe the library Rs" << members[member_id_number].amount_owed << endl
+                 << "No book is issued yet to you " << members[member_id_number].name << "\nKINDLY PAY Rs" << members[member_id_number].amount_owed << " FIRST\n\n";
             return;
         }
-        if (members[member_number].issued == 0)
+        if (members[member_id_number].issued == 0)
         {
-            for (int i = 0; i < booknames.size(); i++) // ddmmyyyy format only
+            for (int i = 0; i < booknames.size(); i++)
             {
                 if (booknames[i] == bookname)
                 {
                     if (count[i] == 0)
                     {
                         cout << "The book is currently not available as all its copies have been issued\n\n";
-                        cout << "Hence it will be reserved for you (" << members[member_number].name << ")\nYou (" << members[member_number].name << ") will be providied with the book when it is available\n\n";
-                        members[member_number].reserve_date = date;
+                        cout << "Hence it will be reserved for you (" << members[member_id_number].name << ")\nYou (" << members[member_id_number].name << ") will be providied with the book when it is available\n\n";
+                        members[member_id_number].reserve_date = date;
                         reserved[i] = 1;
-                        members[member_number].reserved = 1;
-                        members[member_number].reserved_bookname = bookname;
+                        members[member_id_number].reserved = 1;
+                        members[member_id_number].reserved_bookname = bookname;
                         return;
                     }
                     count[i]--;
-                    members[member_number].bookname = bookname;
-                    members[member_number].issue_date = date;
-                    members[member_number].return_date = 0;
-                    members[member_number].issued = 1;
-                    if ((members[member_number].reserved == 1) && (bookname == members[member_number].reserved_bookname))
+                    members[member_id_number].bookname = bookname;
+                    members[member_id_number].issue_date = date;
+                    members[member_id_number].return_date = 0;
+                    members[member_id_number].issued = 1;
+                    if ((members[member_id_number].reserved == 1) && (bookname == members[member_id_number].reserved_bookname))
                     {
-                        cout << "The book '" << bookname << "'reserved by you (" << members[member_number].name << ") is now available and is currently being issued to '" << members[member_number].name << "' now\n\n";
-                        members[member_number].reserved = 0;
+                        cout << "The book '" << bookname << "'reserved by you (" << members[member_id_number].name << ") is now available and is currently being issued to '" << members[member_id_number].name << "' now\n\n";
+                        members[member_id_number].reserved = 0;
                         reserved[i] = 0;
                     }
-                    cout << "Book '" << bookname << "' issued successfully to '" << members[member_number].name << "'\n\n";
+                    cout << "Book '" << bookname << "' issued successfully to '" << members[member_id_number].name << "'\n\n";
                     return;
                 }
             }
@@ -233,54 +233,109 @@ class Library
         }
         else
         {
-            cout << "'" << bookname << "' will not be issued to you (" << members[member_number].name << ") as you (" << members[member_number].name << ") have already have issued the book '" << members[member_number].bookname << "'\n\n";
+            cout << "'" << bookname << "' will not be issued to you (" << members[member_id_number].name << ") as you (" << members[member_id_number].name << ") have already have issued the book '" << members[member_id_number].bookname << "'\n\n";
         }
     }
-    void returnBook(int member_number, int date)
+    void issueBook(int ISBN_number, int member_id_number, int date)
     {
-        if (index_numbers[member_number] == 0)
+        if (id_numbers[member_id_number] == 0)
         {
-            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n" << members.size() << endl
+            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n"
+                 << members.size() << endl
                  << endl;
             return;
-        }        
-        member_number = index_numbers[member_number] - 1;
-        if (members[member_number].issued == 1)
+        }
+        member_id_number = id_numbers[member_id_number] - 1;
+        if (members[member_id_number].amount_owed != 0)
+        {
+            cout << "You (" << members[member_id_number].name << ") owe the library Rs" << members[member_id_number].amount_owed << endl
+                 << "No book is issued yet to you " << members[member_id_number].name << "\nKINDLY PAY Rs" << members[member_id_number].amount_owed << " FIRST\n\n";
+            return;
+        }
+        if (members[member_id_number].issued == 0)
+        {
+            for (int i = 0; i < booknames.size(); i++)
+            {
+                if (isbn_numbers[i] == ISBN_number)
+                {
+                    if (count[i] == 0)
+                    {
+                        cout << "The book is currently not available as all its copies have been issued\n\n";
+                        cout << "Hence it will be reserved for you (" << members[member_id_number].name << ")\nYou (" << members[member_id_number].name << ") will be providied with the book when it is available\n\n";
+                        members[member_id_number].reserve_date = date;
+                        reserved[i] = 1;
+                        members[member_id_number].reserved = 1;
+                        members[member_id_number].reserved_bookname = booknames[i];
+                        return;
+                    }
+                    count[i]--;
+                    members[member_id_number].bookname = booknames[i];
+                    members[member_id_number].issue_date = date;
+                    members[member_id_number].return_date = 0;
+                    members[member_id_number].issued = 1;
+                    if ((members[member_id_number].reserved == 1) && (booknames[i] == members[member_id_number].reserved_bookname))
+                    {
+                        cout << "The book '" << booknames[i] << "'reserved by you (" << members[member_id_number].name << ") is now available and is currently being issued to '" << members[member_id_number].name << "' now\n\n";
+                        members[member_id_number].reserved = 0;
+                        reserved[i] = 0;
+                    }
+                    cout << "Book '" << booknames[i] << "' issued successfully to '" << members[member_id_number].name << "'\n\n";
+                    return;
+                }
+            }
+            cout << "No book with ISBN number '" << ISBN_number << "' exists in the library\nThe library is relatively new\nKindly wait for some time and more books will arrive\n\n";
+        }
+        else
+        {
+            cout << "Book with ISBN number '" << ISBN_number << "' will not be issued to you (" << members[member_id_number].name << ") as you (" << members[member_id_number].name << ") have already have issued the book '" << members[member_id_number].bookname << "'\n\n";
+        }
+    }
+    void returnBook(int member_id_number, int date)
+    {
+        if (id_numbers[member_id_number] == 0)
+        {
+            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n"
+                 << members.size() << endl
+                 << endl;
+            return;
+        }
+        member_id_number = id_numbers[member_id_number] - 1;
+        if (members[member_id_number].issued == 1)
         {
             int book_index = -1;
             string bookname;
             for (int i = 0; i < booknames.size(); i++)
             {
-                if (booknames[i] == members[member_number].bookname)
+                if (booknames[i] == members[member_id_number].bookname)
                 {
-                    bookname = members[member_number].bookname;
-                    members[member_number].bookname = "NONE";
+                    bookname = members[member_id_number].bookname;
+                    members[member_id_number].bookname = "NONE";
                     count[i]++;
-                    members[member_number].return_date = date;
-                    members[member_number].issued = 0;
+                    members[member_id_number].return_date = date;
+                    members[member_id_number].issued = 0;
                     cout << "The book '" << booknames[i] << "' is returned successfully\n\n";
-                    if (members[member_number].reserved == 1)
+                    if (members[member_id_number].reserved == 1)
                     {
                         for (int i = 0; i < booknames.size(); i++)
                         {
-                            if (booknames[i] == members[member_number].reserved_bookname)
+                            if (booknames[i] == members[member_id_number].reserved_bookname)
                             {
                                 if (count[i] != 0)
                                 {
-                                    cout << "The book '" << members[member_number].bookname << "'reserved by you (" << members[member_number].name << ") is now available and is currently being issued to you (" << members[member_number].name << ") now\n\n";
-                                    members[member_number].reserved = 0;
+                                    cout << "The book '" << members[member_id_number].bookname << "'reserved by you (" << members[member_id_number].name << ") is now available and is currently being issued to you (" << members[member_id_number].name << ") now\n\n";
+                                    members[member_id_number].reserved = 0;
                                     reserved[i] = 0;
                                 }
                             }
                         }
                     }
-                    members[member_number].calculateAmountOwed();
+                    members[member_id_number].calculateAmountOwed();
                     book_index = i;
                 }
             }
-            if (members[member_number].amount_owed != 0)
+            if (members[member_id_number].amount_owed != 0)
             {
-                cout << "You (" << members[member_number].name << ") owe the library fine of total Rs" << members[member_number].amount_owed << endl
+                cout << "You (" << members[member_id_number].name << ") owe the library fine of total Rs" << members[member_id_number].amount_owed << endl
                      << endl;
             }
             if (reserved[book_index] != 0)
@@ -303,35 +358,35 @@ class Library
         }
         else
         {
-            cout << "You (" << members[member_number].name << ") possess no book to return\n\n";
+            cout << "You (" << members[member_id_number].name << ") possess no book to return\n\n";
         }
     }
-    void payDueAmount(int member_number)
+    void payDueAmount(int member_id_number)
     {
-        if (index_numbers[member_number] == 0)
+        if (id_numbers[member_id_number] == 0)
         {
-            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n" << members.size() << endl
+            cout << "KINDLY ENTER VALID MEMBER ID NUMBER\n"
+                 << members.size() << endl
                  << endl;
             return;
         }
-        member_number = index_numbers[member_number] - 1;
-        money += members[member_number].amount_owed;
-        members[member_number].amount_owed = 0;
+        member_id_number = id_numbers[member_id_number] - 1;
+        money += members[member_id_number].amount_owed;
+        members[member_id_number].amount_owed = 0;
         cout << "Due paid successfully\n\n";
     }
     void displayCommands()
     {
         cout << "Kindly enter one of the following commands to execute the corresponding task" << endl;
-        cout << "1. Inventory                                                    /* To show books available in library */" << endl;
-        cout << "2. addBook <book name> <number of copies> <your id>             /* To add a book in library if you are manager */" << endl;
-        cout << "3. addMember <name>                                             /* To add member in library records */" << endl;
-        cout << "4. issueBook <book name> <your id> <date(ddmmyyyy)>             /* To issue book to member */" << endl;
-        cout << "5. returnBook <your id> <date(ddmmyyyy)>                        /* To return book to library */" << endl;
-        cout << "6. pay <your id>                                                /* To pay amount owed to library */" << endl;
-        cout << "7. addMember <your id> <member name>                            /* To add member to library (Only manager can do this) */" << endl;
-        cout << "8. clear                                                        /* clear terminal */" << endl;
-        cout << "9. help                                                         /* To display commands again */" << endl;
-        cout << "10. exit                                                        /* To exit library */" << endl;
+        cout << "1. Inventory                                                      /* To show books available in library */" << endl;
+        cout << "2. addBook <book name> <number of copies> <your id (manager)>     /* To add a book in library (manager only)*/" << endl;
+        cout << "3. addMember <name> <your id (manager)>                           /* To add member in library records (manager only)*/" << endl;
+        cout << "4. issueBook <book name/isbn number> <your id> <date(ddmmyyyy)>   /* To issue book to member */" << endl;
+        cout << "5. returnBook <your id> <date(ddmmyyyy)>                          /* To return book to library */" << endl;
+        cout << "6. pay <your id>                                                  /* To pay amount owed to library */" << endl;
+        cout << "7. clear                                                          /* clear terminal */" << endl;
+        cout << "8. help                                                           /* To display commands again */" << endl;
+        cout << "9. exit                                                           /* To exit library */" << endl;
     }
     void inputCommands()
     {
@@ -362,19 +417,19 @@ class Library
         fclose(fp);
         fstream file("library.txt", fstream::out | fstream::trunc);
         file << "Inventory\n";
-        file << "No.\tBooks\t\tNumber of copies\n";
+        file << "No.\t\tBooks\t\tNumber of copies\n";
         for (int i = 0; i < booknames.size(); i++)
         {
             file << i + 1 << "\t" + booknames[i] + "\t\t" << count[i] << "\n";
         }
         file << "\n\nMEMBER DATA\n";
         file << "Member name \t ID Number\t Issued bookname \t Reserved bookname \t Amount owed \t Issue date \t Return date \t Reserve date \t Issued \t Reserved\n";
-        boolalpha;
         for (int i = 0; i < members.size(); i++)
         {
-            file << members[i].name + " \t " << members[i].id_number << "\t " + members[i].bookname + " \t " + members[i].reserved_bookname + " \t " << members[i].amount_owed << " \t " << members[i].issue_date << " \t " << members[i].return_date << " \t " << members[i].reserve_date << " \t " << members[i].issued << " \t " << members[i].reserved << "\n";
+            file << members[i].name + " \t\t " << members[i].id_number << "  \t\t " + members[i].bookname + " \t\t\t\t " + members[i].reserved_bookname + " \t\t\t\t "
+                 << members[i].amount_owed << " \t\t\t\t " << members[i].issue_date << " \t\t\t\t " << members[i].return_date << " \t\t\t\t " << members[i].reserve_date
+                 << " \t\t\t\t " << (bool)members[i].issued << " \t\t\t " << (bool)members[i].reserved << "\n";
         }
-        noboolalpha;
         file.close();
         cout << "Exiting library ...\n";
         cout << "Library exited\n";
@@ -391,10 +446,98 @@ public:
             inputCommands();
             transform(commands[0].begin(), commands[0].end(), commands[0].begin(), ::tolower);
             transform(commands[1].begin(), commands[1].end(), commands[1].begin(), ::tolower);
-
+            if (commands[0] == "end" || commands[0] == "exit" || commands[0] == "quit")
             {
                 exitLibrary();
                 break;
+            }
+            else if (commands[0] == "inventory")
+            {
+                showInventory();
+            }
+            else if (commands[0] == "addbook")
+            {
+                try
+                {
+                    addBook(commands[1], stoi(commands[2]), stoi(commands[3]));
+                }
+                catch (...)
+                {
+                    cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
+                }
+            }
+            else if (commands[0] == "addmember")
+            {
+                if (commands[1] == "")
+                {
+                    cout << "Invalid name\n\n";
+                    continue;
+                }
+                try
+                {
+                    addMember(stoi(commands[2]), commands[1]);
+                }
+                catch (...)
+                {
+                    cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
+                }
+            }
+            else if (commands[0] == "issuebook")
+            {
+                try
+                {
+                    int temp = stoi(commands[1]);
+                    issueBook(temp, stoi(commands[2]), stoi(commands[3]));
+                }
+                catch (...)
+                {
+                    try
+                    {
+                        issueBook(commands[1], stoi(commands[2]), stoi(commands[3]));
+                    }
+                    catch (...)
+                    {
+                        cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
+                    }
+                }
+            }
+            else if (commands[0] == "reutrnbook")
+            {
+                try
+                {
+                    returnBook(stoi(commands[1]), stoi(commands[2]));
+                }
+                catch (...)
+                {
+                    cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
+                }
+            }
+            else if (commands[0] == "pay")
+            {
+                try
+                {
+                    payDueAmount(stoi(commands[1]));
+                }
+                catch(...)
+                {
+                    cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
+                }
+            }
+            else if (commands[0] == "clear")
+            {
+                int system_return_val = system("cls");
+                if (system_return_val != 0)
+                {
+                    system("clear");
+                }
+            }
+            else if (commands[0] == "help")
+            {
+                displayCommands();
+            }
+            else
+            {
+                cout << "Invalid command... Try again\nIf you are facing issues with commands, type 'help'\n";
             }
         }
     }
@@ -402,30 +545,7 @@ public:
     {
         Member *member = new Member("Manager", 007);
         members.insert(members.end(), *member);
-        index_numbers[007] = 1;
+        id_numbers[007] = 1;
         delete (member);
-
-        addMember(007, "Neel");
-        exitLibrary();
     }
 };
-
-int main()
-{
-    Library obj;
-    return 0;
-}
-
-/*
-
-This code is not complete yet
-It is intended to perform library functions and store information in a file once user exits library
-
-I still have to remove the constructor and change some functions
-Modify the functions and optimize as you please
-
-
-
-I will complete the code and upload it soon
-
-*/
