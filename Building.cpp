@@ -8,22 +8,35 @@
 using namespace std;
 void displayCommands()
 {
-    cout << 
+    cout << "Kindly enter one of the following commands to execute the corresponding task" << endl;
+    cout << " 1. Enter library                    /* Enter library inside building */" << endl;
+    cout << " 2. Enter parking lot                /* Enter parking lot beneath the building (basement) */" << endl;
+    cout << " 3. Enter club house                 /* Enter club house to play available games */" << endl;
+    cout << " 4. Buy flat <flat number>           /* Buy a flat */" << endl;
+    cout << " 5. Sell flat <flat number>          /* Sell a flat */" << endl;
+    cout << " 6. Show flat <flat number>          /* Show a specific flat */" << endl;
+    cout << " 7. Show available flats             /* Show all available flats */" << endl;
+    cout << " 8. clear                            /* clear terminal */" << endl;
+    cout << " 9. help                             /* To display commands again */" << endl;
+    cout << "10. exit                             /* To exit library */" << endl;
 }
+
 int main()
 {
-    cout << "Welcome to <building name>" << endl;
+    cout << "Welcome to <building name>\nThis is a simulation\n" << endl;
     string command;
     string commands[4];
     Library lib;
     Details parking_lot;
     Board board;
     Flat flat_obj;
+    displayCommands();
     while (true)
     {
         int index = 0;
         cout << "Enter command: ";
         getline(cin >> ws, command);
+        transform(command.begin(), command.end(), command.begin(), ::tolower);
         commands[0] = commands[1] = commands[2] = commands[3] = "";
         for (int i = 0; (i < command.length()) && (index < 4); i++)
         {
@@ -36,8 +49,6 @@ int main()
                 commands[index] += command[i];
             }
         }
-        transform(commands[0].begin(), commands[0].end(), commands[0].begin(), ::tolower);
-        transform(commands[1].begin(), commands[1].end(), commands[1].begin(), ::tolower);
         if (commands[0] == "end" || commands[0] == "exit" || commands[0] == "quit")
         {
             cout << "Exiting program...\n";
@@ -79,7 +90,7 @@ int main()
                         }
                         else if (choice == 'f' || choice == 'F')
                         {
-                            TwoPlayer(board);
+                            TwoPlayer obj(board);
                         }
                         else
                             throw(choice);
@@ -96,7 +107,7 @@ int main()
         {
             try
             {
-                flat_obj.bookFlat(stoi(commands[1]))
+                flat_obj.bookFlat(stoi(commands[2]));
             }
             catch (...)
             {
@@ -107,25 +118,25 @@ int main()
         {
             try
             {
-                flat_obj.sellFlat(stoi(commands[1]));
+                flat_obj.sellFlat(stoi(commands[2]));
             }
             catch (...)
             {
                 cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
             }
         }
-        else if (commands[0] == "showflat")
+        else if (commands[0] + commands[1] == "showflat")
         {
             try
             {
-                flat_obj.showFlat(stoi(commands[1]));
+                flat_obj.showFlat(stoi(commands[2]));
             }
             catch (...)
             {
                 cout << "INVALID SYNTAX... Try again\nIf you are facing issues with commands, type 'help'\n";
             }
         }
-        else if (commands[0] == "showavailableflats")
+        else if (commands[0] + commands[1] + commands[2] == "showavailableflats")
         {
             try
             {

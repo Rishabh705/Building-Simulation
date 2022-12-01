@@ -177,9 +177,9 @@ class Details : public ParkingEntry
     void displayCommands()
     {
         cout << "Kindly enter one of the following commands to execute the corresponding task" << endl;
-        cout << "1. park <number_plate> <color> <pin (your choice)>                             /* */" << endl;
-        cout << "2. unpark <number_plate> <registered pin>     /* Remove the car from parking slot */" << endl;
-        cout << "3. findVehicle <number_plate> /**/" << endl;
+        cout << "1. park <number_plate> <color> <pin (your choice)>                /* To park your vehicle */" << endl;
+        cout << "2. unpark <number_plate> <registered pin>                         /* Remove the vehicle from parking slot */" << endl;
+        cout << "3. findVehicle <number_plate>                                     /* Find your vehicle */" << endl;
         cout << "4. clear                                                          /* clear terminal */" << endl;
         cout << "5. help                                                           /* To display commands again */" << endl;
         cout << "6. exit                                                           /* To exit library */" << endl;
