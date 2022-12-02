@@ -66,14 +66,14 @@ class ParkingEntry : public Valid
     {
         fstream fio;
         string line, word;
-        fio.open("parking.txt", ios::out);
+        fio.open("parking.csv", ios::out);
         int i = 0;
         while (fio && i < slots.size())
         {
             for (size_t j = 0; j < slots[i].size(); j++)
             {
                 word = slots[i][j];
-                word += "\t\t\t\t\t";
+                word += ", ";
                 fio << word;
             }
             i++;
@@ -112,7 +112,7 @@ protected:
                     int nearest = *min_element(empty_slots.begin(), empty_slots.end()); // nearest available slot obtained
                     slots[j].push_back(n);
                     slots[j].push_back(clr);
-                    slots[j].push_back(to_string(nearest));
+                    slots[j].push_back(to_string(nearest+1));
                     slots[j].push_back(pass);
                     auto it = find(empty_slots.begin(), empty_slots.end(), nearest);
                     int index = it - empty_slots.begin();
@@ -221,7 +221,10 @@ public:
             {
                 try
                 {
-                    park(commands[1], commands[2], commands[3]);
+                    if(countWords(command)==4)
+                        park(commands[1], commands[2], commands[3]);
+                    else
+                        throw (0);    
                 }
                 catch (...)
                 {
@@ -232,7 +235,10 @@ public:
             {
                 try
                 {
-                    unpark(commands[1], commands[2]);
+                    if(countWords(command)==3)
+                        unpark(commands[1], commands[2]);
+                    else
+                        throw (0);    
                 }
                 catch (...)
                 {
@@ -243,7 +249,10 @@ public:
             {
                 try
                 {
-                    findVehicle(commands[1]);
+                    if(countWords(command)==2)
+                        findVehicle(commands[1]);
+                    else
+                        throw (0);
                 }
                 catch (...)
                 {

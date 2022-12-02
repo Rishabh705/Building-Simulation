@@ -14,7 +14,7 @@ class Flat
     {
         fstream fio;
         string line, word;
-        fio.open("sample.csv", ios::out);
+        fio.open("flats.csv", ios::out);
         int i = 0;
         while (fio && i < flats.size())
         {
@@ -46,13 +46,13 @@ public:
             flats[i].push_back("NA");
             flats[i].push_back("NA");
             if (ctr == 0)
-                flats[i].push_back(".\\pics\\flat1.png");
+                flats[i].push_back("./pics/flat1.png");
             else if (ctr == 1)
-                flats[i].push_back(".\\pics\\flat2.png");
+                flats[i].push_back("./pics/flat2.png");
             else if (ctr == 2)
-                flats[i].push_back(".\\pics\\flat3.png");
+                flats[i].push_back("./pics/flat3.png");
             else
-                flats[i].push_back(".\\pics\\flat4.png");
+                flats[i].push_back("./pics/flat4.png");
             room_no++;
             rent += 500;
             if (ctr == 3)
