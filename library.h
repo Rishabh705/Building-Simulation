@@ -1,5 +1,5 @@
-#ifndef library.h
-#define library .h
+#ifndef library_h
+#define library_h
 #include <iostream>
 #include <map>
 #include <vector>
@@ -58,6 +58,7 @@ class Member
     {
         /* 5 rupees per day will be charged after 14 days */
         int days = getDifference(issue_date, return_date);
+        cout << "days " << days << endl;
         if (days <= 14)
             return;
         amount_owed += (days - 14) * 5;
@@ -146,13 +147,13 @@ class Library
             getline(cin >> ws, url_temp);
             string command_line;
             cout << "To check if this url works, this file will be opend now\nPress enter when ready to do so  ";
-            {
+
 #ifdef _WIN64
-                command_line = "start " + url_temp;
+            command_line = "start " + url_temp;
 #elif __linux__
-                command_line = "xdg-open " + url_temp;
+            command_line = "xdg-open " + url_temp;
 #endif
-            }
+
             int system_return_val = system(command_line.c_str());
             if (system_return_val != 0)
             {
@@ -186,10 +187,10 @@ class Library
     {
         if (booknames.size() != 0)
         {
-            cout << "\nBook Name\t\tNumber of copies available" << endl;
+            cout << "\nBook Name\t\tISBN number\t\tNumber of copies available" << endl;
             for (int i = 0; i < booknames.size(); i++)
             {
-                cout << "    " << booknames[i] << "\t\t\t\t" << count[i] << endl;
+                cout << booknames[i] << "\t\t\t" << isbn_numbers[i] << "\t\t\t\t" << count[i] << endl;
             }
             return;
         }
@@ -243,7 +244,7 @@ class Library
             if (c[0] == 'y' || c[0] == 'Y')
             {
                 cout << "Good\n";
-                cout << "The terminal will be cleared shortly";
+                cout << "The terminal will be cleared shortly\n";
                 sleep(5);
                 int system_return_val = system("cls");
                 if (system_return_val != 0)
@@ -300,7 +301,7 @@ class Library
                         reserved[i] = 0;
                     }
                     cout << "Book '" << bookname << "' issued successfully to '" << members[member_id_number].name << "'\n\n";
-                    if (urls[member_id_number] != "")
+                    if (urls[i] != "")
                     {
                         while (true)
                         {
@@ -311,9 +312,9 @@ class Library
                             if (choice == 'Y' || choice == 'y')
                             {
 #ifdef _WIN64
-                                command_line = "start " + urls[member_id_number];
+                                command_line = "start " + urls[i];
 #elif __linux__
-                                command_line = "xdg-open " + urls[member_id_number];
+                                command_line = "xdg-open " + urls[i];
 #endif
                                 cout << "Here you go then\n";
                                 sleep(3);
@@ -548,24 +549,28 @@ class Library
     void exitLibrary()
     {
         FILE *fp;
-        fp = fopen("library.csv", "a+"); // creates a file if it doesnt exist already
+        fp = fopen("library_inventory.csv", "a+"); // creates a file if it doesnt exist already
         fclose(fp);
-        fstream file("library.csv", fstream::out | fstream::trunc);
-        file << "Inventory\n\n";
-        file << "No., Books, ISBN number, Number of copies\n";
+        fstream file1("library_inventory.csv", fstream::out | fstream::trunc);
+        file1 << "Inventory\n\n";
+        file1 << "No., Books, ISBN number, Number of copies, url/path\n";
         for (int i = 0; i < booknames.size(); i++)
         {
-            file << i + 1 << ", " + booknames[i] + ", " << isbn_numbers[i] << ", " << count[i] << "\n";
+            file1 << i + 1 << ", " + booknames[i] + ", " << isbn_numbers[i] << ", " << count[i] << ", " << urls[i] << "\n";
         }
-        file << "\n\nMEMBER DATA\n\n";
-        file << "Member name, Aadhar number, ID Number, Issued bookname, Reserved bookname, Amount owed, Issue date, Return date, Reserve date, Issued, Reserved\n";
+        file1.close();
+        fp = fopen("library_members.csv", "a+");
+        fclose(fp);
+        fstream file2("library_members.csv", fstream::out | fstream::trunc);
+        file2 << "MEMBER DATA\n\n";
+        file2 << "Member name, Aadhar number, ID Number, Issued bookname, Reserved bookname, Amount owed, Issue date, Return date, Reserve date, Issued, Reserved\n";
         for (int i = 0; i < members.size(); i++)
         {
-            file << members[i].name + ", " << aadhar_numbers[i] << ", " << members[i].id_number << ", " + members[i].bookname + ", " + members[i].reserved_bookname + ", "
-                 << members[i].amount_owed << ", " << members[i].issue_date << ", " << members[i].return_date << ", " << members[i].reserve_date
-                 << ", " << (bool)members[i].issued << ", " << (bool)members[i].reserved << "\n";
+            file2 << members[i].name + ", " << aadhar_numbers[i] << ", " << members[i].id_number << ", " + members[i].bookname + ", " + members[i].reserved_bookname + ", "
+                  << members[i].amount_owed << ", " << members[i].issue_date << ", " << members[i].return_date << ", " << members[i].reserve_date
+                  << ", " << (bool)members[i].issued << ", " << (bool)members[i].reserved << "\n";
         }
-        file.close();
+        file2.close();
         cout << "\nExiting library ...\n";
         cout << "Library exited\n";
     }
@@ -621,6 +626,8 @@ public:
             {
                 try
                 {
+                    if (commands[3].length() == 6)
+                        commands[3] = commands[3].substr(0, 4) + "20" + commands[3].substr(4);
                     long long int temp = stoll(commands[1]);
                     issueBook(temp, stoi(commands[2]), stoi(commands[3]));
                 }
@@ -636,10 +643,12 @@ public:
                     }
                 }
             }
-            else if (commands[0] == "reutrnbook")
+            else if (commands[0] == "returnbook")
             {
                 try
                 {
+                    if (commands[3].length() == 6)
+                        commands[3] = commands[3].substr(0, 4) + "20" + commands[3].substr(4);
                     returnBook(stoi(commands[1]), stoi(commands[2]));
                 }
                 catch (...)
@@ -688,14 +697,13 @@ public:
         dr = opendir("./books");
         if (dr)
         {
-            while ((en = readdir(dr)) != NULL)
-                for (int i = 1; (en = readdir(dr)) != NULL; i += 7)
-                {
-                    string temp = en->d_name;
-                    if(temp.size() > 3)
-                    addBook(temp.substr(0, temp.size() - 4), 1111111111 + i + 100 * i + 10000 * i, 5, "./books/" + temp);
-                }
-            exitLibrary(); // remove this at end
+            for (int i = 1; (en = readdir(dr)) != NULL; i += 7)
+            {
+                string temp = en->d_name;
+                if (temp.size() > 3)
+                    if (temp.substr(temp.size() - 4) == ".pdf")
+                        addBook(temp.substr(0, temp.size() - 4), 1111111111 + i + 100 * i + 10000 * i, 5, "./books/" + temp);
+            }
         }
     }
 };
