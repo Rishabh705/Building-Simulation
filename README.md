@@ -14,9 +14,10 @@ This file handles all operations related to Flats in building. It contains one c
 
 Private Member Functions ->
 + void writeFile() : to write data of flats in a file.
-+ Flats() : a default constructor to initialize flats.
++ void readFile() : to read data of library file.
 
 Public Member Functions ->
++ Flats() : a default constructor to initialize flats.
 + void showAvailableFlats() : to display which flats are available for checkin.
 + void showFlats(int room_no) : to display interior image of the flat.
 + void bookFlat(int room_no) : takes an integer parameter to check if the room is available.
@@ -123,6 +124,7 @@ Public Member Functions ->
 
 Private Member Functions -> 
 + void addBook(string bookname, int no_of_copies, int id_number) : to add books in library
++  void addBook(string bookname, long long int ISBN_number, int no_of_copies, string url)
 + void showInventory() : to show books in library
 + void addMember(int manager_id_number, string name, long long int member_aadhar_number) : to register customer
 + void issueBook(string bookname, int member_id_number, int date) : to issue book using bookname.
