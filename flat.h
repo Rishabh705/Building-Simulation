@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <unistd.h>
 using namespace std;
 class Flat
 {                                 //   0      1      2     3     4    5        6
@@ -29,27 +30,26 @@ class Flat
         }
         fio.close();
     }
-    vector<vector<long long>> customers_of_library;
+    vector<vector<string>> customers_of_library;
     void readFile()
     {
         fstream fio;
         string line, word;
         fio.open("library_members.csv", ios::in | ios::out);
-        fio.seekg(211, ios::beg);
-        customers_of_library.push_back(vector<long long>(0)); // aadhar
-        customers_of_library.push_back(vector<long long>(0)); // amount owed
+        fio.seekg(214, ios::beg);
+        customers_of_library.push_back(vector<string>(0)); // aadhar
+        customers_of_library.push_back(vector<string>(0)); // amount owed
         int i = 1;
         while (fio >> word)
         {
+            word = word.substr(0, word.length() - 1);
             if (i == 2)
             {
-                word = word.substr(0, word.length() - 1);
-                customers_of_library[0].push_back(stoll(word));
+                customers_of_library[0].push_back(word);
             }
             else if (i == 6)
             {
-                word = word.substr(0, word.length() - 1);
-                customers_of_library[1].push_back(stoll(word));
+                customers_of_library[1].push_back(word);
             }
             i++;
         }
@@ -179,6 +179,13 @@ public:
             }
             else
                 cout << "Invalid Aadhar number\n";
+            cout << "This terminal will be erased shortly\n";
+            sleep(5);
+            int system_return_val = system("cls");
+            if (system_return_val != 0)
+            {
+                system("clear");
+            }
         }
         else
         {
@@ -209,17 +216,17 @@ public:
             if (to_string(aadhar).length() == 12)
             {
                 readFile();
+                bool library_member = false;
                 bool fine_cleared = false;
                 for (size_t j = 0; j < customers_of_library[0].size(); j++)
                 {
-                    if (customers_of_library[0][j] == aadhar) //if flat customer is also customer of library 
+                    if (customers_of_library[0][j].compare(to_string(aadhar)) == 0) // if flat customer is also customer of library
                     {
-                        if (customers_of_library[1][j] == 0)
+                        library_member = true; //customer is member of library 
+                        if (customers_of_library[1][j].compare("0") == 0) // if fine is 0
                             fine_cleared = true;
                         break;
                     }
-                    else
-                        fine_cleared = true;
                 }
                 cout << "Details for flats are : \n";
                 cout << "Room no : " << room_no << "\tName : " << nme << "\tAadhar : " << aadhar << "\tAddress : " << add << ".\nDo you want to sell this Flat ?(y/n) :";
@@ -227,7 +234,7 @@ public:
                 cin >> ch;
                 if (ch == 'y' | ch == 'Y')
                 {
-                    if (fine_cleared)
+                    if ((library_member == true && fine_cleared == true) | !library_member)
                     { // add details of flat.
                         flats[i][3] = "NBKD";
                         flats[i][4] = "NA";
@@ -245,6 +252,13 @@ public:
             }
             else
                 cout << "Invalid Aadhar number\n";
+            cout << "This terminal will be erased shortly\n";
+            sleep(5);
+            int system_return_val = system("cls");
+            if (system_return_val != 0)
+            {
+                system("clear");
+            }
         }
         else
             cout << "Enter Correct Flat Number!\n";
