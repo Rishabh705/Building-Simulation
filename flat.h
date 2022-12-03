@@ -95,18 +95,19 @@ public:
     }
     void showAvailableFlats()
     {
+        int ctr = 1;
         cout << "Available Flats are :";
-        int prev_floor = stoi(flats[0][0]);
-        cout << "\nFloor : " << prev_floor << endl;
         for (size_t i = 0; i < flats.size(); i++)
         {
-            // if floor is same then don't display floor again.
-            if (prev_floor != stoi(flats[i][0]) && flats[i][3].compare("NBKD") == 0)
+            // // display only not booked
+            if (ctr == 1)
                 cout << "\nFloor : " << flats[i][0] << endl;
-            // display only not booked
             if (flats[i][3].compare("NBKD") == 0)
                 cout << "Room no : " << flats[i][1] << "\t\tRent :" << flats[i][2] << "\t\tStatus : " << flats[i][3] << endl;
-            prev_floor = stoi(flats[i][0]);
+            if (ctr == 4)
+                ctr = 1;
+            else
+                ctr++;
         }
     }
     void showFlat(int room_no)
@@ -151,36 +152,43 @@ public:
         {
             long long aadhar;
             cout << "Enter your Aadhar number : ";
-            cin >> aadhar;
-            if (to_string(aadhar).length() == 12)
+            try
             {
-                // demand rent
-                float rent = stoi(flats[i][2]); // map it with room so as to have different rates.
-                cout << "Rent for Room no." << room_no << " is : " << rent << ". No bargain !\nDo you want to buy this Flat ?(y/n) :";
-                char ch;
-                cin >> ch;
-                if (ch == 'y')
+                cin >> aadhar;
+                if (to_string(aadhar).length() == 12)
                 {
-                    // add details of flat.
-                    string nme, add;
-                    cout << "Enter your Name : ";
-                    cin.ignore();
-                    getline(cin, nme);
-                    cout << "Enter your Permanent Address : ";
-                    getline(cin, add);
-                    flats[i][3] = "BKD";
-                    flats[i][4] = nme;
-                    flats[i][5] = to_string(aadhar);
-                    flats[i][6] = add;
-                    cout << "Flat Booked!\n";
-                    writeFile();
+                    // demand rent
+                    float rent = stoi(flats[i][2]); // map it with room so as to have different rates.
+                    cout << "Rent for Room no." << room_no << " is : " << rent << ". No bargain !\nDo you want to buy this Flat ?(y/n) :";
+                    char ch;
+                    cin >> ch;
+                    if (ch == 'y')
+                    {
+                        // add details of flat.
+                        string nme, add;
+                        cout << "Enter your Name : ";
+                        cin.ignore();
+                        getline(cin, nme);
+                        cout << "Enter your Permanent Address : ";
+                        getline(cin, add);
+                        flats[i][3] = "BKD";
+                        flats[i][4] = nme;
+                        flats[i][5] = to_string(aadhar);
+                        flats[i][6] = add;
+                        cout << "Flat Booked!\n";
+                        writeFile();
+                    }
+                    cout << "\nHave a nice and peaceful day !\n";
                 }
-                cout << "\nHave a nice and peaceful day !\n";
+                else
+                    cout << "Invalid Aadhar number\n";
             }
-            else
+            catch (...)
+            {
                 cout << "Invalid Aadhar number\n";
+            }
             cout << "This terminal will be erased shortly\n";
-            sleep(5);
+            sleep(2);
             int system_return_val = system("cls");
             if (system_return_val != 0)
             {
@@ -212,46 +220,53 @@ public:
         {
             long long aadhar;
             cout << "Enter your Aadhar number : ";
-            cin >> aadhar;
-            if (to_string(aadhar).length() == 12)
+            try
             {
-                readFile();
-                bool library_member = false;
-                bool fine_cleared = false;
-                for (size_t j = 0; j < customers_of_library[0].size(); j++)
+                cin >> aadhar;
+                if (to_string(aadhar).length() == 12)
                 {
-                    if (customers_of_library[0][j].compare(to_string(aadhar)) == 0) // if flat customer is also customer of library
+                    readFile();
+                    bool library_member = false;
+                    bool fine_cleared = false;
+                    for (size_t j = 0; j < customers_of_library[0].size(); j++)
                     {
-                        library_member = true; //customer is member of library 
-                        if (customers_of_library[1][j].compare("0") == 0) // if fine is 0
-                            fine_cleared = true;
-                        break;
+                        if (customers_of_library[0][j].compare(to_string(aadhar)) == 0) // if flat customer is also customer of library
+                        {
+                            library_member = true;                            // customer is member of library
+                            if (customers_of_library[1][j].compare("0") == 0) // if fine is 0
+                                fine_cleared = true;
+                            break;
+                        }
                     }
-                }
-                cout << "Details for flats are : \n";
-                cout << "Room no : " << room_no << "\tName : " << nme << "\tAadhar : " << aadhar << "\tAddress : " << add << ".\nDo you want to sell this Flat ?(y/n) :";
-                char ch;
-                cin >> ch;
-                if (ch == 'y' | ch == 'Y')
-                {
-                    if ((library_member == true && fine_cleared == true) | !library_member)
-                    { // add details of flat.
-                        flats[i][3] = "NBKD";
-                        flats[i][4] = "NA";
-                        flats[i][5] = "NA";
-                        flats[i][6] = "NA";
-                        cout << "Flat Sold!\n";
-                        writeFile();
-                        cout << "\nHave a nice and peaceful day !.\nCome Again Soon.\n";
+                    cout << "Details for flats are : \n";
+                    cout << "Room no : " << room_no << "\tName : " << nme << "\tAadhar : " << aadhar << "\tAddress : " << add << ".\nDo you want to sell this Flat ?(y/n) :";
+                    char ch;
+                    cin >> ch;
+                    if (ch == 'y' | ch == 'Y')
+                    {
+                        if ((library_member == true && fine_cleared == true) | !library_member)
+                        { // add details of flat.
+                            flats[i][3] = "NBKD";
+                            flats[i][4] = "NA";
+                            flats[i][5] = "NA";
+                            flats[i][6] = "NA";
+                            cout << "Flat Sold!\n";
+                            writeFile();
+                            cout << "\nHave a nice and peaceful day !.\nCome Again Soon.\n";
+                        }
+                        else
+                            cout << "Clear your fine in library first!\n";
                     }
                     else
-                        cout << "Clear your fine in library first!\n";
+                        cout << "Have a nice day.\n";
                 }
                 else
-                    cout << "Have a nice day.\n";
+                    cout << "Invalid Aadhar number\n";
             }
-            else
+            catch (...)
+            {
                 cout << "Invalid Aadhar number\n";
+            }
             cout << "This terminal will be erased shortly\n";
             sleep(5);
             int system_return_val = system("cls");
