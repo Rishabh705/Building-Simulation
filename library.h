@@ -397,9 +397,9 @@ class Library
                             if (choice == 'Y' || choice == 'y')
                             {
 #ifdef _WIN64
-                                command_line = "start " + urls[member_id_number];
+                                command_line = "start " + urls[i];
 #elif __linux__
-                                command_line = "xdg-open " + urls[member_id_number];
+                                command_line = "xdg-open " + urls[i];
 #endif
                                 cout << "Here you go then\n";
                                 sleep(3);
