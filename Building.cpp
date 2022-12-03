@@ -23,7 +23,11 @@ void displayCommands()
 
 int main()
 {
-    cout << "Welcome to <building name>\nThis is a simulation\n" << endl;
+    FILE *fp;
+    fp = fopen("library_members.csv", "a+"); // creates a file if it doesnt exist already
+    fclose(fp);
+    cout << "Welcome to <building name>\nThis is a simulation\n"
+         << endl;
     string command;
     string commands[4];
     Library lib;
@@ -79,27 +83,34 @@ int main()
                 if (choice == 'Y' || choice == 'y')
                 {
                     cout << "Would you like to play with computer or with a friend? (C/f)";
-                    try
+                    while (1)
                     {
-                        cin >> choice;
-                        Board board;
-                        if (choice == 'C' || choice == 'c')
+                        try
                         {
-                            OnePlayer obj(board);
+                            cin >> choice;
+                            Board board;
+                            if (choice == 'C' || choice == 'c')
+                            {
+                                OnePlayer obj(board);
+                            }
+                            else if (choice == 'f' || choice == 'F')
+                            {
+                                TwoPlayer obj(board);
+                            }
+                            else
+                                throw(choice);
+                            cout << "\nGame Over\nThank you for playing othello\n\n";
+                            break;
                         }
-                        else if (choice == 'f' || choice == 'F')
+                        catch (...)
                         {
-                            TwoPlayer obj(board);
+                            cout << "Invalid choice\n";
                         }
-                        else
-                            throw(choice);
-                        break;
-                    }
-                    catch (...)
-                    {
-                        cout << "Invalid choice\n";
+                        cout << "\nWould you like to play othello again? (Y/n) ";
                     }
                 }
+                else
+                    break;
             }
         }
         else if (commands[0] + commands[1] == "buyflat")

@@ -112,13 +112,21 @@ protected:
                     int nearest = *min_element(empty_slots.begin(), empty_slots.end()); // nearest available slot obtained
                     slots[j].push_back(n);
                     slots[j].push_back(clr);
-                    slots[j].push_back(to_string(nearest+1));
+                    slots[j].push_back(to_string(nearest + 1));
                     slots[j].push_back(pass);
                     auto it = find(empty_slots.begin(), empty_slots.end(), nearest);
                     int index = it - empty_slots.begin();
                     empty_slots.erase(empty_slots.begin() + index);
                     cout << "Your vehicle " << n << " is parked at slot number " << nearest + 1 << endl;
                     j++;
+                    cout << "Press enter to clear terminal\n";
+                    string temp;
+                    getline(cin >> ws, temp);
+                    int system_return_val = system("cls");
+                    if (system_return_val != 0)
+                    {
+                        system("clear");
+                    }
                     writeFile();
                 }
                 else
@@ -145,6 +153,14 @@ protected:
                 vehicle_was_present = true;
                 j--;
                 writeFile();
+                cout << "Press enter to clear terminal\n";
+                string temp;
+                getline(cin >> ws, temp);
+                int system_return_val = system("cls");
+                if (system_return_val != 0)
+                {
+                    system("clear");
+                }
                 break;
             }
         }
@@ -221,10 +237,10 @@ public:
             {
                 try
                 {
-                    if(countWords(command)==4)
+                    if (countWords(command) == 4)
                         park(commands[1], commands[2], commands[3]);
                     else
-                        throw (0);    
+                        throw(0);
                 }
                 catch (...)
                 {
@@ -235,10 +251,10 @@ public:
             {
                 try
                 {
-                    if(countWords(command)==3)
+                    if (countWords(command) == 3)
                         unpark(commands[1], commands[2]);
                     else
-                        throw (0);    
+                        throw(0);
                 }
                 catch (...)
                 {
@@ -249,10 +265,10 @@ public:
             {
                 try
                 {
-                    if(countWords(command)==2)
+                    if (countWords(command) == 2)
                         findVehicle(commands[1]);
                     else
-                        throw (0);
+                        throw(0);
                 }
                 catch (...)
                 {

@@ -559,8 +559,6 @@ class Library
             file1 << i + 1 << ", " + booknames[i] + ", " << isbn_numbers[i] << ", " << count[i] << ", " << urls[i] << "\n";
         }
         file1.close();
-        fp = fopen("library_members.csv", "a+");
-        fclose(fp);
         fstream file2("library_members.csv", fstream::out | fstream::trunc);
         file2 << "MEMBER DATA\n\n";
         file2 << "Member name, Aadhar number, ID Number, Issued bookname, Reserved bookname, Amount owed, Issue date, Return date, Reserve date, Issued, Reserved\n";
