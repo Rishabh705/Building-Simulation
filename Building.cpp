@@ -28,7 +28,6 @@ int main()
     string commands[4];
     Library lib;
     Details parking_lot;
-    Board board;
     Flat flat_obj;
     displayCommands();
     while (true)
@@ -72,7 +71,6 @@ int main()
                 try
                 {
                     cin >> choice;
-                    break;
                 }
                 catch (...)
                 {
@@ -84,6 +82,7 @@ int main()
                     try
                     {
                         cin >> choice;
+                        Board board;
                         if (choice == 'C' || choice == 'c')
                         {
                             OnePlayer obj(board);
