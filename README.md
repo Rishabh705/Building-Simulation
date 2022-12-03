@@ -2,7 +2,7 @@
 In this project we are trying to simulate a building through concepts of OOP.
 Inside the building, a customer is able to park his/her vehicle, view,checkin and checkout a flat, enjoy a game and read books in the library inside building.
 
-This repo contains 5 files in which 4 are header files and 1 is driver file.
+This repo contains 6 files in which 5 are header files and 1 is driver file.
 
 Description of files are : 
 
@@ -59,7 +59,7 @@ Public Member ->
 
 ## c. game.h
 
-This file provides an interactive game for customers. It contains  6 classes. Their brief description is given below : 
+This file provides an interactive game for customers. It contains 6 classes. Their brief description is given below : 
 
 ``class Board ``
 
@@ -106,7 +106,21 @@ Proteted Member Functions ->
 Public Member Functions ->
 + OnePlayer(Board &t) : to handle game for One player
 
-## d. library.h
+## d. clubhouse.h
+
+This file handles all the games like othello game in game.h above. Here more class files similar to `game.h` for games can be added easily and thus no major changes will be needed.
+
+This file has one class. It's breif description is given below:
+
+`class ClubHouse`
+
+Private Member Functions ->
+
++ void inputCommands(): To get commands input from user
++ void displayCommands(): To display commands to user
++ void enterClubHouse(): To start the functionality of club house ie play whichever game from the available ones the user wants to (this is created as a function and not a constructor so that we can enter and exit the club house as per our convenience without having to declare a new object everytime)
+
+## e. library.h
 
 This file handles Library management for the Building. It contains two classes. Their brief description is given below : 
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include "game.h"
+#include "clubhouse.h"
 #include "flat.h"
 #include "parking.h"
 #include "library.h"
@@ -26,13 +26,13 @@ int main()
     FILE *fp;
     fp = fopen("library_members.csv", "a+"); // creates a file if it doesnt exist already
     fclose(fp);
-    cout << "Welcome to <building name>\nThis is a simulation\n"
-         << endl;
+    cout << "Welcome to <building name>\nThis is a simulation\n\n";
     string command;
     string commands[4];
     Library lib;
     Details parking_lot;
     Flat flat_obj;
+    ClubHouse club_house_obj;
     displayCommands();
     while (true)
     {
@@ -67,51 +67,7 @@ int main()
         }
         else if (commands[0] + commands[1] + commands[2] == "enterclubhouse")
         {
-            cout << "The building is quite recently constructed and does not have full facilities yet\nCurrently we only have Othello\n";
-            cout << "Would you like to play othello? (Y/n) ";
-            char choice;
-            while (1)
-            {
-                try
-                {
-                    cin >> choice;
-                }
-                catch (...)
-                {
-                    cout << "Invalid choice\n";
-                }
-                if (choice == 'Y' || choice == 'y')
-                {
-                    cout << "Would you like to play with computer or with a friend? (C/f)";
-                    while (1)
-                    {
-                        try
-                        {
-                            cin >> choice;
-                            Board board;
-                            if (choice == 'C' || choice == 'c')
-                            {
-                                OnePlayer obj(board);
-                            }
-                            else if (choice == 'f' || choice == 'F')
-                            {
-                                TwoPlayer obj(board);
-                            }
-                            else
-                                throw(choice);
-                            cout << "\nGame Over\nThank you for playing othello\n\n";
-                            break;
-                        }
-                        catch (...)
-                        {
-                            cout << "Invalid choice\n";
-                        }
-                        cout << "\nWould you like to play othello again? (Y/n) ";
-                    }
-                }
-                else
-                    break;
-            }
+            club_house_obj.enterClubHouse();
         }
         else if (commands[0] + commands[1] == "buyflat")
         {
