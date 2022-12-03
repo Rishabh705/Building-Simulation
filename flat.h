@@ -202,28 +202,27 @@ public:
     }
     void sellFlat(int room_no)
     {
-        bool flat_booked = false;
-        int i; // to store the row in which flat details are stored
-        string nme, add;
-
-        for (i = 0; i < flats.size(); i++)
+        long long aadhar;
+        cout << "Enter your Aadhar number : ";
+        try
         {
-            if (room_no == stoi(flats[i][1]) && (flats[i][3].compare("BKD") == 0))
+            cin >> aadhar;
+            if (to_string(aadhar).length() == 12)
             {
-                nme = flats[i][4];
-                add = flats[i][6];
-                flat_booked = true;
-                break;
-            }
-        }
-        if (flat_booked)
-        {
-            long long aadhar;
-            cout << "Enter your Aadhar number : ";
-            try
-            {
-                cin >> aadhar;
-                if (to_string(aadhar).length() == 12)
+                bool flat_booked = false;
+                int i; // to store the row in which flat details are stored
+                string nme, add;
+                for (i = 0; i < flats.size(); i++)
+                {
+                    if (room_no == stoi(flats[i][1]) && (flats[i][3].compare("BKD") == 0) && (flats[i][5].compare(to_string(aadhar)) == 0))
+                    {
+                        nme = flats[i][4];
+                        add = flats[i][6];
+                        flat_booked = true;
+                        break;
+                    }
+                }
+                if (flat_booked)
                 {
                     readFile();
                     bool library_member = false;
@@ -261,22 +260,22 @@ public:
                         cout << "Have a nice day.\n";
                 }
                 else
-                    cout << "Invalid Aadhar number\n";
+                    cout << "Flat not available/aadhar unregistered!\n";
+                cout << "This terminal will be erased shortly\n";
+                sleep(2);
+                int system_return_val = system("cls");
+                if (system_return_val != 0)
+                {
+                    system("clear");
+                }
             }
-            catch (...)
-            {
+            else
                 cout << "Invalid Aadhar number\n";
-            }
-            cout << "This terminal will be erased shortly\n";
-            sleep(5);
-            int system_return_val = system("cls");
-            if (system_return_val != 0)
-            {
-                system("clear");
-            }
         }
-        else
-            cout << "Enter Correct Flat Number!\n";
+        catch(...)
+        {
+            cout << "INVALID SYNTAX\n";
+        }
     }
 };
 #endif
