@@ -1,12 +1,15 @@
-# Building-Simulation
-In this project we are trying to simulate a building through concepts of OOP.
-Inside the building, a customer is able to park his/her vehicle, view,checkin and checkout a flat, enjoy a game and read books in the library inside building.
+# Building Simulation
+`In this project we simulate a building using concepts of object-oriented programming with commands.`
 
-This repo contains 6 files in which 5 are header files and 1 is driver file.
+`Inside the building, a customer is able to park his/her vehicle, view, checkin and checkout a flat, enjoy a game and read books in the library inside building.`
 
-Description of files are : 
+This repository currently contains 6 files in which 5 are header files and 1 is driver file.
 
-## a. flat.h
+You can view the UML for each of the classes used near the end of this file.
+
+_Description of files are given below :_-
+
+## 1. flat.h
 
 This file handles all operations related to Flats in building. It contains one class with members as follows :
 
@@ -23,7 +26,7 @@ Public Member Functions ->
 + void bookFlat(int room_no) : takes an integer parameter to check if the room is available.
 + void sellFlat(int room_no) : to sell a flat when customer wants to leave the flat.
 
-## b. parking.h
+## 2. parking.h
 
 It handles all operations related to vehicle of customer. It contains two functions and three classes.
 
@@ -57,7 +60,7 @@ Private Member Functions ->
 Public Member -> 
 + void enterParkingLot() : to use all above members 
 
-## c. game.h
+## 3. game.h
 
 This file provides an interactive game for customers. It contains 6 classes. Their brief description is given below : 
 
@@ -106,7 +109,8 @@ Proteted Member Functions ->
 Public Member Functions ->
 + OnePlayer(Board &t) : to handle game for One player
 
-## d. clubhouse.h
+
+## 4. clubhouse.h
 
 This file handles all the games like othello game in game.h above. Here more class files similar to `game.h` for games can be added easily and thus no major changes will be needed.
 
@@ -120,7 +124,7 @@ Private Member Functions ->
 + void displayCommands(): To display commands to user
 + void enterClubHouse(): To start the functionality of club house ie play whichever game from the available ones the user wants to (this is created as a function and not a constructor so that we can enter and exit the club house as per our convenience without having to declare a new object everytime)
 
-## e. library.h
+## 5. library.h
 
 This file handles Library management for the Building. It contains two classes. Their brief description is given below : 
 
@@ -160,7 +164,14 @@ This file combines all above files and uses them to simulate a Building.
 + void displayCommands() : to display all accepted commands.
 + main()
 
+ More files can be added easily and integrated with the program with near to no changes in original code. (only addition) 
 
-**This repository is developed and owned by Neel Amit Shah and Rishabh Singh.**
+## `How to run the program?`
 
-*References for pictures -> https://www.booking.com/*
+`The user can start by running the program and the possible instructions will be given to the user. `
+
+![Image description](https://github.com/Rishabh705/Building-Simulation/blob/secondary/umls/Clubhouse_UML.jpg)
+
+**This repository is developed and owned by [Neel Amit Shah](https://github.com/Neelshah-01) and [Rishabh Singh](https://github.com/Rishabh705).**
+
+*The pictures used were taken from [here](https://www.booking.com)*.
