@@ -9,6 +9,8 @@ Building Simulation
 
 `The data of library, parking lot and flats is also copied to respective files of same name by the time program execution is completed`
 
+`This code works on both windows and linux`
+
 This repository currently contains 6 files in which 5 are header files and 1 is driver file. Folders for sample [books](https://github.com/Rishabh705/Building-Simulation/tree/master/books) and [pictures](https://github.com/Rishabh705/Building-Simulation/tree/master/pics) are also uploaded.
 
 You can view the UML for each of the classes used near the end of file description.
