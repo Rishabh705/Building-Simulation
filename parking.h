@@ -203,7 +203,7 @@ class Details : public ParkingEntry
     void inputCommands()
     {
         int index = 0;
-        cout << "Enter command: ";
+        cout << "\nEnter command: ";
         getline(cin >> ws, command);
         commands[0] = commands[1] = commands[2] = commands[3] = "";
         for (int i = 0; (i < command.length()) && (index < 4); i++)

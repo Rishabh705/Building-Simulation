@@ -37,7 +37,7 @@ int main()
     while (true)
     {
         int index = 0;
-        cout << "Enter command: ";
+        cout << "\nEnter command: ";
         getline(cin >> ws, command);
         transform(command.begin(), command.end(), command.begin(), ::tolower);
         commands[0] = commands[1] = commands[2] = commands[3] = "";
@@ -125,6 +125,8 @@ int main()
         {
             displayCommands();
         }
+        else
+            cout << "Invalid command\n";
     }
     cout << "Program Exited\n";
     return 0;
