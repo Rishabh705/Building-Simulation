@@ -1,19 +1,25 @@
-# Building Simulation
+#
+<h1 align = "center">
+Building Simulation
+</h1>
+
 `In this project we simulate a building using concepts of object-oriented programming with commands.`
 
 `Inside the building, a customer is able to park his/her vehicle, view, checkin and checkout a flat, enjoy a game and read books in the library inside building.`
 
-This repository currently contains 6 files in which 5 are header files and 1 is driver file.
+`The data of library, parking lot and flats is also copied to respective files of same name by the time program execution is completed`
 
-You can view the UML for each of the classes used near the end of this file.
+This repository currently contains 6 files in which 5 are header files and 1 is driver file. Folders for sample [books](https://github.com/Rishabh705/Building-Simulation/tree/master/books) and [pictures](https://github.com/Rishabh705/Building-Simulation/tree/master/pics) are also uploaded.
+
+You can view the UML for each of the classes used near the end of file description.
 
 _Description of files are given below :_-
 
-## 1. flat.h
+## 1. [flat.h](https://github.com/Rishabh705/Building-Simulation/blob/master/flat.h)
 
 This file handles all operations related to Flats in building. It contains one class with members as follows :
 
-``class Flat ``  
+``class Flat``  
 
 Private Member Functions ->
 + void writeFile() : to write data of flats in a file.
@@ -26,20 +32,25 @@ Public Member Functions ->
 + void bookFlat(int room_no) : takes an integer parameter to check if the room is available.
 + void sellFlat(int room_no) : to sell a flat when customer wants to leave the flat.
 
-## 2. parking.h
+<p align = "center">
+<img width = "400" src = "https://github.com/Rishabh705/Building-Simulation/blob/master/umls/Flat_UML.jpg" alt = "This image cannot be displayed as it is currently unavailable">
+</p>
+
+
+## 2. [parking.h](https://github.com/Rishabh705/Building-Simulation/blob/master/parking.h)
 
 It handles all operations related to vehicle of customer. It contains two functions and three classes.
 
 + string lower(string str1) : to lowercase str1
 + int countWords(string line) : to count number of words in line.
 
-``class Valid ``
+``class Valid``
 
 Protected Member Functions -> 
 + bool checkNumber(string reg) : to check validity of number plate.
 + bool checkColour(string clr) : to check validity of colour of vehicle
 
-``class ParkingEntry `` inherits ``Valid``
+``class ParkingEntry``  inherits ``Valid``
 
 Private Member Functions ->
 + writeFile() : to write data into a file 
@@ -50,7 +61,7 @@ Protected Member Functions ->
 + void park(string reg, string clr, string pass) : to park car with number reg, colour clr, and pin of user.
 + void unpark(string reg, string pass) : to unpark car with number reg
 
-``class Details `` inherits ``Parking Entry``
+``class Details``  inherits ``Parking Entry``
 
 Private Member Functions -> 
 + void findVehicle(string reg) : to find vehicle in parking slot
@@ -60,7 +71,11 @@ Private Member Functions ->
 Public Member -> 
 + void enterParkingLot() : to use all above members 
 
-## 3. game.h
+<p align = "center">
+<img width = "400" src = "https://github.com/Rishabh705/Building-Simulation/blob/master/umls/Parking_UML.jpg" alt = "This image cannot be displayed as it is currently unavailable">
+</p>
+
+## 3. [game.h](https://github.com/Rishabh705/Building-Simulation/blob/master/game.h)
 
 This file provides an interactive game for customers. It contains 6 classes. Their brief description is given below : 
 
@@ -88,12 +103,12 @@ Protected Member Functions ->
 + bool finished(Board &t) : to check if game is over
 + int winner(Board &t) : to find the winner of the game
 
-``class Display ``
+``class Display``
 
 Public Member Functions ->
 void PrintBoard(Board &t) : to display the board
 
-``class TwoPlayer `` inherits ``Gameplay``
+``class TwoPlayer`` inherits ``Gameplay``
 
 Public Member Functions ->
 + TwoPlayer(Board &t) : to handle game for two players
@@ -109,10 +124,14 @@ Proteted Member Functions ->
 Public Member Functions ->
 + OnePlayer(Board &t) : to handle game for One player
 
+<p align = "center">
+<img width = "1000" src = "https://github.com/Rishabh705/Building-Simulation/blob/master/umls/Othello_UML.jpg" alt = "This image cannot be displayed as it is currently unavailable">
+</p>
 
-## 4. clubhouse.h
 
-This file handles all the games like othello game in game.h above. Here more class files similar to `game.h` for games can be added easily and thus no major changes will be needed.
+## 4. [clubhouse.h](https://github.com/Rishabh705/Building-Simulation/blob/master/clubhouse.h)
+
+This file handles all the games like othello game in [game.h](https://github.com/Rishabh705/Building-Simulation/blob/master/game.h) above. Here more class files similar to `game.h` for games can be added easily and thus no major changes will be needed.
 
 This file has one class. It's breif description is given below:
 
@@ -124,7 +143,11 @@ Private Member Functions ->
 + void displayCommands(): To display commands to user
 + void enterClubHouse(): To start the functionality of club house ie play whichever game from the available ones the user wants to (this is created as a function and not a constructor so that we can enter and exit the club house as per our convenience without having to declare a new object everytime)
 
-## 5. library.h
+<p align = "center">
+<img width = "400" src = "https://github.com/Rishabh705/Building-Simulation/blob/master/umls/Clubhouse_UML.jpg" alt = "This image cannot be displayed as it is currently unavailable">
+</p>
+
+## 5. [library.h](https://github.com/Rishabh705/Building-Simulation/blob/master/library.h)
 
 This file handles Library management for the Building. It contains two classes. Their brief description is given below : 
 
@@ -157,7 +180,12 @@ Public Member Functions ->
 + void enterLibrary() : to start library program
 + Library() : to initialize manager for library
 
-## Driver Code : Building.cpp
+
+<p align = "center">
+<img width = "1000" src = "https://github.com/Rishabh705/Building-Simulation/blob/master/umls/Library_UML.jpg" alt = "This image cannot be displayed as it is currently unavailable">
+</p>
+
+## Driver code file : [Building.cpp](https://github.com/Rishabh705/Building-Simulation/blob/master/Building.cpp)
 
 This file combines all above files and uses them to simulate a Building.
 
@@ -166,12 +194,23 @@ This file combines all above files and uses them to simulate a Building.
 
  More files can be added easily and integrated with the program with near to no changes in original code. (only addition) 
 
-## `How to run the program?`
+`Some details:`
++ The [building](https://github.com/Rishabh705/Building-Simulation/blob/master/Building.cpp) contains 10 floors with 4 flats on each floor.
++ It also contains a [library](https://github.com/Rishabh705/Building-Simulation/blob/master/library.h), [parking lot](https://github.com/Rishabh705/Building-Simulation/blob/master/parking.h) and [clubhouse](https://github.com/Rishabh705/Building-Simulation/blob/master/clubhouse.h)
++ You can buy or sell flats
++ You can become a library member
++ You can park and unpark your car and find it
++ You can play [Othello](https://github.com/Rishabh705/Building-Simulation/blob/master/game.h) (currently only game in clubhouse)
 
-`The user can start by running the program and the possible instructions will be given to the user. `
+`How to run the program?`
 
-![Image description](https://github.com/Rishabh705/Building-Simulation/blob/secondary/umls/Clubhouse_UML.jpg)
++ The user can start by running the [program](https://github.com/Rishabh705/Building-Simulation/blob/master/Building.cpp) and the possible instructions will be given to the user.
++ You can type 'help' whenever you forget the commands.
++ To issue a book in library, you need to be a member first. Manager id (to add user to library): 007
++ To park a car you need to provide a pin, so then only you can unpark the car.
++ Names with spaces will not be accepted.
++ You can check a sample run of the program [here](https://github.com/Rishabh705/Building-Simulation/blob/master/sample_input_output.mp4).
 
-**This repository is developed and owned by [Neel Amit Shah](https://github.com/Neelshah-01) and [Rishabh Singh](https://github.com/Rishabh705).**
+**[This repository](https://github.com/Rishabh705/Building-Simulation) is developed and owned by [Neel Amit Shah](https://github.com/Neelshah-01) and [Rishabh Singh](https://github.com/Rishabh705).**
 
 *The pictures used were taken from [here](https://www.booking.com)*.
