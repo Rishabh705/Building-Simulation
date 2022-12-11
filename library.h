@@ -322,7 +322,10 @@ class Library
                                 break;
                             }
                             else if (choice == 'n' || choice == 'N')
+                            {
                                 cout << "Okay\n";
+                                break;
+                            }
                             else
                             {
                                 cout << "Invalid choice\nTry again...\n";
@@ -407,7 +410,10 @@ class Library
                                 break;
                             }
                             else if (choice == 'n' || choice == 'N')
+                            {
                                 cout << "Okay\n";
+                                break;
+                            }
                             else
                             {
                                 cout << "Invalid choice\nTry again...\n";
