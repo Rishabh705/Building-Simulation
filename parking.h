@@ -182,7 +182,7 @@ class Details : public ParkingEntry
             if (reg.compare(slots[i][0]) == 0)
             {
                 cout << "\nRegistration number\tSlot number\tColour\n";
-                cout << "     " << reg << "\t\t   " << stoi(slots[i][2]) + 1 << "\t\t " << slots[i][1] << endl;
+                cout << "     " << reg << "\t\t   " << stoi(slots[i][2]) << "\t\t " << slots[i][1] << endl;
                 found = true;
                 break;
             }
