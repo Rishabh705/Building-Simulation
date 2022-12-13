@@ -216,3 +216,6 @@ This file combines all above files and uses them to simulate a Building.
 **[This repository](https://github.com/Rishabh705/Building-Simulation) is developed and owned by [Neel Amit Shah](https://github.com/Neelshah-01) and [Rishabh Singh](https://github.com/Rishabh705).**
 
 *The pictures used were taken from [here](https://www.booking.com)*.
+
+## NOTE :
+*  Delete contents of 'books' folder and add pdfs of some books in the folder. 
