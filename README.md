@@ -3,6 +3,19 @@
 Building Simulation
 </h1>
 
+`How to run the program?`
+
++ The user can start by running the [program](https://github.com/Rishabh705/Building-Simulation/blob/master/Building.cpp) and the possible instructions will be given to the user.
++ You can type 'help' whenever you forget the commands.
++ To issue a book in library, you need to be a member first. Manager id (to add user to library): 007
++ To park a car you need to provide a pin, so then only you can unpark the car.
++ Names with spaces will not be accepted.
+
+## Demo
+https://github.com/user-attachments/assets/bcc89d82-f54b-421f-a41a-3b2600d10978
+
+
+
 `In this project we simulate a building using concepts of object-oriented programming with commands.`
 
 `Inside the building, a customer is able to park his/her vehicle, view, checkin and checkout a flat, enjoy a game and read books in the library inside building.`
@@ -203,15 +216,6 @@ This file combines all above files and uses them to simulate a Building.
 + You can become a library member
 + You can park and unpark your car and find it
 + You can play [Othello](https://github.com/Rishabh705/Building-Simulation/blob/master/game.h) (currently only game in clubhouse)
-
-`How to run the program?`
-
-+ The user can start by running the [program](https://github.com/Rishabh705/Building-Simulation/blob/master/Building.cpp) and the possible instructions will be given to the user.
-+ You can type 'help' whenever you forget the commands.
-+ To issue a book in library, you need to be a member first. Manager id (to add user to library): 007
-+ To park a car you need to provide a pin, so then only you can unpark the car.
-+ Names with spaces will not be accepted.
-+ You can check a sample run of the program [here](https://github.com/Rishabh705/Building-Simulation/blob/master/sample_input_output.mp4).
 
 **[This repository](https://github.com/Rishabh705/Building-Simulation) is developed and owned by [Neel Amit Shah](https://github.com/Neelshah-01) and [Rishabh Singh](https://github.com/Rishabh705).**
 
